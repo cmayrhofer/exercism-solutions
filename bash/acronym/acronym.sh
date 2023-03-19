@@ -15,7 +15,14 @@
 #   # ...
 
 main () {
-    abbreviation=$(sed -r -e "s/\b_*([a-zA-Z])[a-zA-Z']*_*[^a-zA-Z_]*/\1/g" <<< "$1")
+    sentence=$(tr -s ' ' <<< "${1//[[:punct:]]/ }")
+    read -r -a sentence_ar <<< "$sentence"
+
+    abbreviation=""
+    for word in "${sentence_ar[@]}"; do
+        abbreviation="${abbreviation}${word:0:1}"
+    done;
+
     echo "${abbreviation^^}"
 }
 
