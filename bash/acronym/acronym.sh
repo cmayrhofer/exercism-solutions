@@ -14,14 +14,14 @@
 #   # ...
 #   # ...
 
-main () {
-    sentence=$(tr -s ' ' <<< "${1//[[:punct:]]/ }")
-    read -r -a sentence_ar <<< "$sentence"
+main() {
+    sentence="${1//\'/}"
+    sentence=$(tr -s ' ' <<<"${sentence//[[:punct:]]/ }")
 
     abbreviation=""
-    for word in "${sentence_ar[@]}"; do
+    while read -r -d ' ' word; do
         abbreviation="${abbreviation}${word:0:1}"
-    done;
+    done <<<"${sentence} "
 
     echo "${abbreviation^^}"
 }
